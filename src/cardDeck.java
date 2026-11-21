@@ -21,6 +21,9 @@ public class cardDeck {
     public int getValue() {
         return cardValue;
     }
+    public static void print(String thing) {
+        System.out.println(thing);
+    }
     @Override 
     public String toString() {
         
