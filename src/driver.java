@@ -3,9 +3,10 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class driver {
-    public static int playerMoney;
+    public static int playerMoney = 500;
     public static int casinoMoney;
     public static int betPub;
+    
 
     public static final String ANSI_UNDERLINE = "\u001B[4m";
     public static final String RED = "\u001B[31m";
@@ -64,6 +65,14 @@ public class driver {
         else if (choice == 2) {
             System.out.println("Blackjack it is!");
             blackjackDriver();
+            int i = 0;
+            while (i != 2) {
+                System.out.println("Do you want to play blackjack again? 1. Yes, 2. No");
+                i = input.nextInt();
+                if (i == 1) {
+                    blackjackDriver();   
+                }
+            }
         }
         else {
             System.out.println("Invalid input gng :sob");
@@ -84,15 +93,23 @@ public class driver {
         }
     }
     public static void blackjack() {
+        playerCards.clear();
         Scanner input = new Scanner(System.in);
         int totalValue = 0;
         boolean bust = false;
 
-        System.out.println("Yo");
+        //System.out.println("Yo");
         dealCards(2);
         
         System.out.println("The dealers top card is a " + dealerCards.get(0));
         System.out.println("Your cards are " + playerCards);
+        System.out.println("Time to bet! Minimum bet is $50 and you have $" + playerMoney + ". How much are you going to bet?");
+        betPub = input.nextInt();
+        while (betPub < 50) {
+            System.out.println("Input was invalid. Pick another");
+            betPub = input.nextInt();
+            playerMoney -=betPub;
+        }
         while (bust != true) {
             totalValue = totalValue("player", "blackjack");
             if (totalValue == 21) {
@@ -120,7 +137,7 @@ public class driver {
             else if (choice == 3) {
                 System.out.println("How much will you add to your bet?");
                 int bet = input.nextInt();
-                betPub = bet;
+                betPub = bet + betPub;
             }
             else {
                 System.out.println("Input was invalid");
@@ -134,26 +151,59 @@ public class driver {
             System.out.println("It's the dealers turn");
             dealerTurn("blackjack");
         }
-
+        // after dealer turn, check who won and the bet they made. 
+        if (bust == true) {
+            System.out.println(RED+"Your value was " + totalValue + " and Dealers was: " + dealCardTotal+ANSI_RESET);
+            System.out.println("Dealer won because u busted!\nYou lost your money!");
+            playerMoney-=betPub;
+        }
+        else if (dealCardTotal > 21) {
+            //System.out.println("Dealer busted! You win!");
+            playerMoney += 2*betPub;
+            System.out.println("Dealer busted! You win! You got " + 2*betPub + " dollars from that!");
+        }
+        else if (totalValue > dealCardTotal) {
+            playerMoney += betPub*2;
+            System.out.println(RED+"Your value was " + totalValue + " and Dealers was: " + dealCardTotal+ANSI_RESET);
+            System.out.println("You won! You get your double your bet back! It is: " + 2*betPub + " back to you!");          
+        }
+        else if (totalValue == dealCardTotal) {
+            playerMoney -= betPub;
+            System.out.println(RED+"Your value was " + totalValue + " and Dealers was: " + dealCardTotal +ANSI_RESET);
+            System.out.println("You tied in value but the dealer wins in a tie! You lost " + betPub + " dollars"); 
+        }
+        else if (dealCardTotal > totalValue) {
+            System.out.println(RED+"Your value was " + totalValue + " and Dealers was: " + dealCardTotal+ANSI_RESET);
+            System.out.println("You lost " + betPub + " dollars because you lost");     
+        }
     }
      /*
     In blackjack, the dealer follows fixed rules rather than choosing whether to hit or stand:
 
         The dealer draws cards on 16 or less.
-        The dealer usually stands on hard 17 or higher.g
+        The dealer usually stands on hard 17 or higher.
 
     */
     // make dealer turn, input for blackjack or poker
+    public static int dealCardTotal;
     public static void dealerTurn(String game) {
         if (game.equals("blackjack")) {    
             System.out.println("The dealers top card is a " + dealerCards.get(0));
-            int dealCardTotal = totalValue("dealer", "blackjack");
+            dealCardTotal = totalValue("dealer", "blackjack");
             while (dealCardTotal <=16) {
                 dealDrawCard();
                 dealCardTotal = totalValue("dealer", "blackjack");
                 System.out.println(dealCardTotal);
             }
-            System.out.println("The dealer has to stand on " + dealCardTotal);
+            if (dealCardTotal == 21) {
+                System.out.println("Dealer has blackjack!");
+            }
+            else if (dealCardTotal > 21) {
+                System.out.println("Dealer busts!");
+            }
+            else {
+                System.out.println("The dealer has to stand on " + dealCardTotal);
+            }
         }
     }
 
