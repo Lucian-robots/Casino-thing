@@ -131,7 +131,8 @@ public class driver {
             dealerTurn("blackjack");
         }
         else {
-
+            System.out.println("It's the dealers turn");
+            dealerTurn("blackjack");
         }
 
     }
@@ -150,6 +151,7 @@ public class driver {
             while (dealCardTotal <=16) {
                 dealDrawCard();
                 dealCardTotal = totalValue("dealer", "blackjack");
+                System.out.println(dealCardTotal);
             }
             System.out.println("The dealer has to stand on " + dealCardTotal);
         }
@@ -174,16 +176,17 @@ public class driver {
         shuffledDeck.remove(0);
     }
     public static void dealDrawCard() {
+        //System.out.println(shuffledDeck);
         dealerCards.add(shuffledDeck.get(0));
         shuffledDeck.remove(0);
     }
     public static int totalValue(String who, String game) {
         int total = 0;
-        int currentValue;
+        int currentValue =0;
         if (game.equals("blackjack")) {
             if (who.equals("player")) {
                 for (int i = 0; i < playerCards.size(); i++) {
-                    currentValue = playerCards.get(0).getValue();
+                    currentValue = playerCards.get(i).getValue();
                     if (currentValue >= 11) {
                         currentValue = 10;
                     }
@@ -192,15 +195,17 @@ public class driver {
                     }
                     total +=currentValue;
                 }
+                return total;
             }
-            if (who.equals("computer")) {
+            else if (who.equals("dealer")) {
                 for (int i = 0; i < dealerCards.size(); i++) {
-                    currentValue = dealerCards.get(0).getValue();
+                    currentValue = dealerCards.get(i).getValue();
                     if (currentValue >= 11) {
                         currentValue = 11;
                     }
                     total +=currentValue;
                 }
+                return total;
             }
         }
         return total;
