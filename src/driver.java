@@ -208,9 +208,17 @@ public class driver {
             }
         }
         else if (game.equals("poker")) {
-            
-            
-        }
+            if (pokerHandDetectionDealer().equals("High Card")) {
+                System.out.println("Dealer is going to draw 3 cards");
+                dealerCards.remove(0);
+                for (int i =0; i < 3; i++) {
+                    dealDrawCard();
+                }
+            }
+            else {
+                System.out.println("Dealer is going to hold their cards");
+            }// lowk skipping the logic, just use the dealers og hand
+        } // start cheating part here
     }
     public static String pokerHandDetectionDealer() {
         //String hand = "";
@@ -263,22 +271,22 @@ public class driver {
             return "3 of a kind";
         }
         else if (matches == 4) {
-            return "Hold";
+            return "Full House";
         }
         else if (matches == 6) {
-            return "Hold";
+            return "4 of a kind";
         }
         else if (isStraight == true && suitMatches == 5) {
-            return "Hold";
+            return "Straigh Flush";
         }
         else if (isStraight == true) {
-            return "Hold";
+            return "Straight";
         }
         else if (suitMatches == 5) {
-            return "Hold";
+            return "Flush";
         }
         else {
-            return "Hold";
+            return "High Card";
         }
     }
     
@@ -370,6 +378,11 @@ public class driver {
         System.out.println(pokerHandDetection());
         // dealer turn
         dealerTurn("poker");
+
+
+    }
+    public static void checkWhoWonPoker() {
+        System.out.println("");
     }
     /* 
     public static void pokerCardsToDiscard() {
