@@ -69,6 +69,14 @@ public class driver {
                 if (i == 1) {
                     pokerDriver();
                 }
+                System.out.println("Time to bet! Minimum bet is $50 and you have $" + playerMoney + ". How much are you going to bet?");
+                betPub = input.nextInt();
+                // make the bet
+                while (betPub < 50 || betPub > playerMoney) {
+                    System.out.println("Input was invalid. Pick another");
+                    betPub = input.nextInt();
+                    playerMoney -=betPub;
+                }
                 if (playerMoney <= 0) {
                     System.out.println(RED+"You lost all of your money lol"+ANSI_RESET);
                     System.exit(0);
@@ -80,10 +88,18 @@ public class driver {
             blackjackDriver();
             int i = 0;
             while (i != 2) {
+                // while the user doesn't want to bet
                 System.out.println("Do you want to play blackjack again? 1. Yes, 2. No");
                 i = input.nextInt();
                 if (i == 1) {
                     blackjackDriver();   
+                }
+                System.out.println("Time to bet! Minimum bet is $50 and you have $" + playerMoney + ". How much are you going to bet?");
+                betPub = input.nextInt();
+                while (betPub < 50 || betPub > playerMoney) {
+                    System.out.println("Input was invalid. Pick another");
+                    betPub = input.nextInt();
+                    playerMoney -=betPub;
                 }
                 if (playerMoney <= 0) {
                     System.out.println(RED+"You lost all of your money lol"+ANSI_RESET);
@@ -127,7 +143,7 @@ public class driver {
         System.out.println("Your cards are " + playerCards);
         System.out.println("Time to bet! Minimum bet is $50 and you have $" + playerMoney + ". How much are you going to bet?");
         betPub = input.nextInt();
-        while (betPub < 50) {
+        while (betPub < 50 || betPub > playerMoney) {
             System.out.println("Input was invalid. Pick another");
             betPub = input.nextInt();
             playerMoney -=betPub;
@@ -310,7 +326,7 @@ public class driver {
         }
     }
     
-
+ 
     // universal deal, also, make the playerCards and dealerCards
     public static ArrayList<cardDeck> playerCards = new ArrayList<>();
     public static ArrayList<cardDeck> dealerCards = new ArrayList<>();
@@ -364,7 +380,7 @@ public class driver {
         }
         return total;
     }
-
+     // poker driver will conrtol poker and then be used in the gamedriver
     // poker here
     public static void pokerDriver() {
         ArrayList<cardDeck> discardCards = new ArrayList<>();
@@ -376,7 +392,7 @@ public class driver {
         System.out.println("How much do you want to bet? Minimum bet is $50, and you have $"+playerMoney);
         betPub = 0;
         betPub = input.nextInt();
-        while (betPub < 50) {
+        while (betPub < 50 || betPub > playerMoney) {
             System.out.println("Not enough: enter new value above 50");
             betPub = input.nextInt();
         }
