@@ -363,6 +363,10 @@ public class driver {
         System.out.println("The hands are 1. high card  2. 2 of a kind   3. 2 pair 4. 3 of a kind   5. straight   6. flush     7. full house    8. 4 of a kind   9. straight flush 10. Royal Flush");
         System.out.println("\nYour cards are " + playerCards +  ". You can discard up to 3 cards, and with an Ace you can discard 4 cards and get new ones, or discard none. How many will you discard / draw back? ");
         int discardAmount = input.nextInt();
+        if (discardAmount >= 4 && !(containsCardPlayer("Ace"))) {
+            System.out.println("You are not able to do that many cards, so you can do 3");
+            discardAmount = 3;
+        }
         for (int i = 0; i < discardAmount; i++) {
             // ask which card to get rid of 
             System.out.println(playerCards+"\nEnter what number card you want to discard (0 - " + (playerCards.size() -1) + "):  ");
@@ -378,11 +382,21 @@ public class driver {
         System.out.println(pokerHandDetection());
         // dealer turn
         dealerTurn("poker");
-
+        checkWhoWonPoker();
 
     }
     public static void checkWhoWonPoker() {
-        
+        int playerHand = numHand("player"); 
+        int dealerHand = numHand("Dealer");
+
+        if (playerHand > dealerHand) {
+            System.out.println("You won!");
+        }
+        else {
+            System.out.println("Your hand was " + pokerHandDetection() + " and the dealers hand was " + pokerHandDetectionDealer());
+            System.out.println("You lost! You lost your bet of " + betPub);
+            playerMoney -=betPub;
+        }  
     }
     public static int numHand(String player) {
         String dealerHand = pokerHandDetectionDealer();
@@ -527,7 +541,7 @@ public class driver {
     public static boolean containsCardPlayer(String cardType) {
         boolean contains = false;
         for (int i = 0; i < playerCards.size(); i++) {
-            if (playerCards.get(i).getSuit().equals("cardType")) {
+            if (playerCards.get(i).getSuit().equals(cardType)) {
                 contains = true;
             }
         }
