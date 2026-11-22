@@ -301,7 +301,7 @@ public class driver {
             dealDrawCard();
         }
     }
-    // make dealer turn, input for blackjack or poker
+    // make dealer turn, input for blackjack or poker  
     
 
     // draw card functions for both dealer and player
@@ -361,7 +361,7 @@ public class driver {
             betPub = input.nextInt();
         }
         System.out.println("The hands are 1. high card  2. 2 of a kind   3. 2 pair 4. 3 of a kind   5. straight   6. flush     7. full house    8. 4 of a kind   9. straight flush 10. Royal Flush");
-        System.out.println("\nYour cards are " + playerCards +  ". You can discard up to 3 cards, and with an Ace you can discard 4 cards and get new ones, or discard none. How many will you discard / draw back? ");
+        System.out.println("\nYour cards are " + playerCards +  BLUE+". You can discard up to 3 cards, and with an Ace you can discard 4 cards and get new ones, or discard none. How many will you discard / draw back? "+ANSI_RESET);
         int discardAmount = input.nextInt();
         if (discardAmount >= 4 && !(containsCardPlayer("Ace"))) {
             System.out.println("You are not able to do that many cards, so you can do 3");
@@ -385,6 +385,7 @@ public class driver {
         checkWhoWonPoker();
 
     }
+    //checks who won by making it a int in numHand and then comparing them
     public static void checkWhoWonPoker() {
         int playerHand = numHand("player"); 
         int dealerHand = numHand("Dealer");
@@ -402,28 +403,28 @@ public class driver {
         String dealerHand = pokerHandDetectionDealer();
         String playerHand = pokerHandDetection();
         if (player.equals("Dealer")) {
-            if (dealerHand.equals("High Card")) {
+            if (pokerHandDetectionDealer().equals("High Card")) {
                 return 2;
             }
-            else if (dealerHand.equals("2 Pair")) {
+            else if (pokerHandDetectionDealer().equals("2 Pair")) {
                 return 3;
             }
-            else if (dealerHand.equals("3 of a kind")) {
+            else if (pokerHandDetectionDealer().equals("3 of a kind")) {
                 return 4;
             }
-            else if (dealerHand.equals("Full House")) {
+            else if (pokerHandDetectionDealer().equals("Full House")) {
                 return 7;
             }
-            else if (dealerHand.equals("4 of a kind")) {
+            else if (pokerHandDetectionDealer().equals("4 of a kind")) {
                 return 8;
             }
-            else if (dealerHand.equals("Straight")) {
+            else if (pokerHandDetectionDealer().equals("Straight")) {
                 return 6;
             }
-            else if (dealerHand.equals("Flush")) {
+            else if (pokerHandDetectionDealer().equals("Flush")) {
                 return 5;
             }
-            else if (dealerHand.equals("Straight Flush")) {
+            else if (pokerHandDetectionDealer().equals("Straight Flush")) {
                 return 9;
             }
             else {
@@ -431,28 +432,28 @@ public class driver {
             }
         }
         else {
-            if (playerHand.equals("High Card")) {
+            if (pokerHandDetection().equals("High Card")) {
             return 2;
             }
-            else if (playerHand.equals("2 Pair")) {
+            else if (pokerHandDetection().equals("2 Pair")) {
                 return 3;
             }
-            else if (playerHand.equals("3 of a kind")) {
+            else if (pokerHandDetection().equals("3 of a kind")) {
                 return 4;
             }
-            else if (playerHand.equals("Full House")) {
+            else if (pokerHandDetection().equals("Full House")) {
                 return 7;
             }
-            else if (playerHand.equals("4 of a kind")) {
+            else if (pokerHandDetection().equals("4 of a kind")) {
                 return 8;
             }
-            else if (playerHand.equals("Straight")) {
+            else if (pokerHandDetection().equals("Straight")) {
                 return 6;
             }
-            else if (playerHand.equals("Flush")) {
+            else if (pokerHandDetection().equals("Flush")) {
                 return 5;
             }
-            else if (playerHand.equals("Straight Flush")) {
+            else if (pokerHandDetection().equals("Straight Flush")) {
                 return 9;
             }
             else {
