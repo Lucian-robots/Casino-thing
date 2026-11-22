@@ -369,7 +369,7 @@ public class driver {
             int card = input.nextInt();
             discardCards.add(playerCards.remove(card));
         }
-        if (discardAmount > 0) {
+        if (discardAmount > 0) { 
             for (int i = 0; i < discardCards.size(); i ++) {
                 drawCard();
             }
@@ -382,7 +382,69 @@ public class driver {
 
     }
     public static void checkWhoWonPoker() {
-        System.out.println("");
+        
+    }
+    public static int numHand(String player) {
+        String dealerHand = pokerHandDetectionDealer();
+        String playerHand = pokerHandDetection();
+        if (player.equals("Dealer")) {
+            if (dealerHand.equals("High Card")) {
+                return 2;
+            }
+            else if (dealerHand.equals("2 Pair")) {
+                return 3;
+            }
+            else if (dealerHand.equals("3 of a kind")) {
+                return 4;
+            }
+            else if (dealerHand.equals("Full House")) {
+                return 7;
+            }
+            else if (dealerHand.equals("4 of a kind")) {
+                return 8;
+            }
+            else if (dealerHand.equals("Straight")) {
+                return 6;
+            }
+            else if (dealerHand.equals("Flush")) {
+                return 5;
+            }
+            else if (dealerHand.equals("Straight Flush")) {
+                return 9;
+            }
+            else {
+                return 1;
+            }
+        }
+        else {
+            if (playerHand.equals("High Card")) {
+            return 2;
+            }
+            else if (playerHand.equals("2 Pair")) {
+                return 3;
+            }
+            else if (playerHand.equals("3 of a kind")) {
+                return 4;
+            }
+            else if (playerHand.equals("Full House")) {
+                return 7;
+            }
+            else if (playerHand.equals("4 of a kind")) {
+                return 8;
+            }
+            else if (playerHand.equals("Straight")) {
+                return 6;
+            }
+            else if (playerHand.equals("Flush")) {
+                return 5;
+            }
+            else if (playerHand.equals("Straight Flush")) {
+                return 9;
+            }
+            else {
+                return 1;
+            }
+        }
     }
     /* 
     public static void pokerCardsToDiscard() {
@@ -450,7 +512,7 @@ public class driver {
             return "4 of a kind";
         }
         else if (isStraight == true && suitMatches == 5) {
-            return "Straigh Flush";
+            return "Straight Flush";
         }
         else if (isStraight == true) {
             return "Straight";
