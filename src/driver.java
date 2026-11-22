@@ -61,6 +61,7 @@ public class driver {
         int choice = input.nextInt();
         if (choice == 1) {
             System.out.println("Poker it is!");
+            pokerDriver();
         }
         else if (choice == 2) {
             System.out.println("Blackjack it is!");
@@ -142,7 +143,7 @@ public class driver {
             else {
                 System.out.println("Input was invalid");
             }
-        } // checlk who won
+        } // checlk who won, check who busted
         if (bust == true) {
             System.out.println("You busted at " + totalValue + ". Now it's the dealers turn");
             dealerTurn("blackjack");
@@ -261,7 +262,102 @@ public class driver {
         return total;
     }
 
+    // poker here
+    public static void pokerDriver() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Welcome to poker!");
+        dealCards(5);
+        System.out.println("Your cards are " + playerCards);
+        System.out.println("How much do you want to bet? Minimum bet is $50");
+        betPub = 0;
+        betPub = input.nextInt();
+        while (betPub < 50) {
+            System.out.println("Not enough: enter new value above 50");
+            betPub = input.nextInt();
+        }
+        
 
+    }
+    /*
+    high card     #
+    2 of a kind   #
+    2 pair        #
+    3 of a kind   #
+    straight   
+    flush         #
+    full house    #
+    4 of a kind   #
+    straight flush
+    royal flush
+    */
+    public static String pokerHandDetection() {
+        String hand = "";
+        int matches = 0;
+        for (int i = 0; i < playerCards.size(); i++) {
+            /*
+            0-1 0-2 0-3 0-4
+            1-2 1-3 1-4
+            2-3 2-4 
+            3-4
+            */
+            for (int j = i+1; j < playerCards.size(); j++) {
+                if (playerCards.get(i).isValueEqual(playerCards.get(j))) {
+                    matches++;
+                }
+            }
+        }
+
+        // time to check for straughts, flush, and royal + straight flush
+        int suitMatches = 0;
+        for (int z = 0; z < playerCards.size(); z++) {          
+            if (playerCards.get(0).isSuitEqual(playerCards.get(z))) {
+             suitMatches++;
+            }          
+        }
+
+        Collections.sort(playerCards,(card1, card2) -> Integer.compare(card1.getValue(), card2.getValue()));
+        // make the playersCards in order of value, then check for a straight
+        boolean isStraight = true;
+
+        for (int x = 1; x < playerCards.size(); x++) {
+            int previousValue = playerCards.get(x-1).getValue();
+            int currentValue = playerCards.get(x).getValue();
+
+            if (currentValue != previousValue +1) {
+                isStraight = false;
+                break;
+            }
+        }
+
+        // CHECK HANBDS HERE
+        if (matches == 1) {
+            return "Pair";
+        }
+        else if (matches == 2) {
+            return "2 Pair";
+        }
+        else if (matches == 3) {
+            return "3 of a kind";
+        }
+        else if (matches == 4) {
+            return "Full House";
+        }
+        else if (matches == 6) {
+            return "4 of a kind";
+        }
+        else if (isStraight == true && suitMatches == 5) {
+            return "Straigh Flush";
+        }
+        else if (isStraight == true) {
+            return "Straight";
+        }
+        else if (suitMatches == 5) {
+            return "Flush";
+        }
+        else {
+            return "High Card";
+        }
+    }
 
     // main bs
     public static void main(String[]args) {

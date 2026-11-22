@@ -15,7 +15,7 @@ public class cardDeck {
         this.cardSuit = tempCardColor;
         this.cardValue = tempCardValue;
     }
-    public String getColor() {
+    public String getSuit() {
         return cardSuit;
     }
     public int getValue() {
@@ -23,6 +23,22 @@ public class cardDeck {
     }
     public static void print(String thing) {
         System.out.println(thing);
+    }
+    public boolean isValueEqual(cardDeck c1) {
+        if (this.cardValue == c1.getValue() ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    public boolean isSuitEqual(cardDeck c1) {
+        if (this.cardSuit.equals(c1.getSuit())) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     @Override 
     public String toString() {
