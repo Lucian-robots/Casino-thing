@@ -94,6 +94,7 @@ public class driver {
         }
     }
     public static void blackjack() {
+        dealerCards.clear();
         playerCards.clear();
         Scanner input = new Scanner(System.in);
         int totalValue = 0;
@@ -206,7 +207,81 @@ public class driver {
                 System.out.println("The dealer has to stand on " + dealCardTotal);
             }
         }
+        else if (game.equals("poker")) {
+            
+            
+        }
     }
+    public static String pokerHandDetectionDealer() {
+        //String hand = "";
+        int matches = 0;
+        for (int i = 0; i < playerCards.size(); i++) {
+            /*
+            0-1 0-2 0-3 0-4
+            1-2 1-3 1-4
+            2-3 2-4 
+            3-4
+            */
+           // need to find which one will be the best
+            for (int j = i+1; j < playerCards.size(); j++) {
+                if (playerCards.get(i).isValueEqual(playerCards.get(j))) {
+                    matches++;
+                }
+            }
+        }
+
+        // time to check for straughts, flush, and royal + straight flush
+        int suitMatches = 0;
+        for (int z = 0; z < playerCards.size(); z++) {          
+            if (playerCards.get(0).isSuitEqual(playerCards.get(z))) {
+             suitMatches++;
+            }          
+        }
+
+        Collections.sort(playerCards,(card1, card2) -> Integer.compare(card1.getValue(), card2.getValue()));
+        // make the playersCards in order of value, then check for a straight
+        boolean isStraight = true;
+
+        for (int x = 1; x < playerCards.size(); x++) {
+            int previousValue = playerCards.get(x-1).getValue();
+            int currentValue = playerCards.get(x).getValue();
+
+            if (currentValue != previousValue +1) {
+                isStraight = false;
+                break;
+            }
+        }
+
+        // CHECK HANBDS HERE
+        if (matches == 1) {
+            return "Pair";
+        }
+        else if (matches == 2) {
+            return "2 Pair";
+        }
+        else if (matches == 3) {
+            return "3 of a kind";
+        }
+        else if (matches == 4) {
+            return "Hold";
+        }
+        else if (matches == 6) {
+            return "Hold";
+        }
+        else if (isStraight == true && suitMatches == 5) {
+            return "Hold";
+        }
+        else if (isStraight == true) {
+            return "Hold";
+        }
+        else if (suitMatches == 5) {
+            return "Hold";
+        }
+        else {
+            return "Hold";
+        }
+    }
+    
 
     // universal deal, also, make the playerCards and dealerCards
     public static ArrayList<cardDeck> playerCards = new ArrayList<>();
@@ -264,34 +339,50 @@ public class driver {
 
     // poker here
     public static void pokerDriver() {
+        ArrayList<cardDeck> discardCards = new ArrayList<>();
         Scanner input = new Scanner(System.in);
         System.out.println("Welcome to poker!");
         dealCards(5);
+        
         System.out.println("Your cards are " + playerCards);
-        System.out.println("How much do you want to bet? Minimum bet is $50");
+        System.out.println("How much do you want to bet? Minimum bet is $50, and you have $"+playerMoney);
         betPub = 0;
         betPub = input.nextInt();
         while (betPub < 50) {
             System.out.println("Not enough: enter new value above 50");
             betPub = input.nextInt();
         }
-        
-
+        System.out.println("The hands are 1. high card  2. 2 of a kind   3. 2 pair 4. 3 of a kind   5. straight   6. flush     7. full house    8. 4 of a kind   9. straight flush 10. Royal Flush");
+        System.out.println("\nYour cards are " + playerCards +  ". You can discard up to 3 cards, and with an Ace you can discard 4 cards and get new ones, or discard none. How many will you discard / draw back? ");
+        int discardAmount = input.nextInt();
+        for (int i = 0; i < discardAmount; i++) {
+            // ask which card to get rid of 
+            System.out.println(playerCards+"\nEnter what number card you want to discard (0 - " + (playerCards.size() -1) + "):  ");
+            int card = input.nextInt();
+            discardCards.add(playerCards.remove(card));
+        }
+        if (discardAmount > 0) {
+            for (int i = 0; i < discardCards.size(); i ++) {
+                drawCard();
+            }
+        }
+        System.out.println("Now your cards are " + playerCards);
+        System.out.println(pokerHandDetection());
+        // dealer turn
+        dealerTurn("poker");
     }
-    /*
-    high card     #
-    2 of a kind   #
-    2 pair        #
-    3 of a kind   #
-    straight   
-    flush         #
-    full house    #
-    4 of a kind   #
-    straight flush
-    royal flush
+    /* 
+    public static void pokerCardsToDiscard() {
+        char input = ' ';
+        while (input != 'z') {
+            System.out.println(playerCards);
+
+        }
+    }
+    /*high card     2 of a kind   2 pair        3 of a kind   straight   flush         full house    4 of a kind   straight flushroyal flush
     */
     public static String pokerHandDetection() {
-        String hand = "";
+        //String hand = "";
         int matches = 0;
         for (int i = 0; i < playerCards.size(); i++) {
             /*
@@ -358,7 +449,20 @@ public class driver {
             return "High Card";
         }
     }
-
+    public static boolean containsCardPlayer(String cardType) {
+        boolean contains = false;
+        for (int i = 0; i < playerCards.size(); i++) {
+            if (playerCards.get(i).getSuit().equals("cardType")) {
+                contains = true;
+            }
+        }
+        if (contains == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     // main bs
     public static void main(String[]args) {
         gameDriver();
