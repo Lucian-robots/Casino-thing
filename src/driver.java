@@ -62,6 +62,18 @@ public class driver {
         if (choice == 1) {
             System.out.println("Poker it is!");
             pokerDriver();
+            int i = 0;
+            while (i != 2) {
+                System.out.println("Do you play poker again? 1. Yes, 2. No");
+                i = input.nextInt();
+                if (i == 1) {
+                    pokerDriver();
+                }
+                if (playerMoney <= 0) {
+                    System.out.println(RED+"You lost all of your money lol"+ANSI_RESET);
+                    System.exit(0);
+                }
+            }
         }
         else if (choice == 2) {
             System.out.println("Blackjack it is!");
@@ -73,11 +85,19 @@ public class driver {
                 if (i == 1) {
                     blackjackDriver();   
                 }
+                if (playerMoney <= 0) {
+                    System.out.println(RED+"You lost all of your money lol"+ANSI_RESET);
+                    System.exit(0);
+                }
             }
         }
         else {
             System.out.println("Invalid input gng :sob");
             gameDriver();
+        }
+        if (playerMoney <= 0) {
+            System.out.println(RED+"You lost all of your money lol"+ANSI_RESET);
+            System.exit(0);
         }
 
     }
@@ -461,16 +481,7 @@ public class driver {
             }
         }
     }
-    /* 
-    public static void pokerCardsToDiscard() {
-        char input = ' ';
-        while (input != 'z') {
-            System.out.println(playerCards);
-
-        }
-    }
-    /*high card     2 of a kind   2 pair        3 of a kind   straight   flush         full house    4 of a kind   straight flushroyal flush
-    */
+    // poker hand detection stuff
     public static String pokerHandDetection() {
         //String hand = "";
         int matches = 0;
